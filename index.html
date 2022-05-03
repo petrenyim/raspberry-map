@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Playground</title>
+</head>
+<body>
+<div style="height: 100px; width: 300px; overflow: hidden;">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20190912174307/qwe1.png" id="geeks">
+</div>
+</body>
+<script>
+
+function zoomin() {
+  var GFG = document.getElementById("geeks");
+  var currHeight = GFG.clientHeight;
+  GFG.style.height = (currHeight + 40) + "px";
+}
+
+function zoomout() {
+  var GFG = document.getElementById("geeks");
+  var currHeight = GFG.clientHeight;
+  GFG.style.height = (currHeight - 40) + "px";
+}
+
+
+const ws = new WebSocket('ws://localhost:9898/');
+
+zoomed = true
+
+ws.onopen = function() {
+  console.log('WebSocket Client Connected');
+};
+
+ws.onmessage = function(e) {
+  console.log("Received: '" + e.data + "'");
+
+  if (e.data == 'i') {
+    zoomin()
+    zoomed = false
+  }
+  else {
+    zoomout()
+    zoomed = true
+  }
+};
+
+</script>
+</html>
